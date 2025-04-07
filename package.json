@@ -1,0 +1,32 @@
+{
+  "name": "music_player",
+  "version": "1.0.0",
+  "description": "a combined music player",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sharmavasant/music_player.git"
+  },
+  "keywords": [
+    "music"
+  ],
+  "author": "vasant kumar sharma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sharmavasant/music_player/issues"
+  },
+  "homepage": "https://github.com/sharmavasant/music_player#readme",
+  "dependencies": {
+    "axios": "^1.8.4",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
