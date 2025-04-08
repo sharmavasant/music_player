@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Playlist Songs</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #121212;
+        color: #fff;
+        margin: 0;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 40px;
+        color: #1db954;
+      }
+
+      .playlist {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+      }
+
+      .track-card {
+        background-color: #1e1e1e;
+        border-radius: 12px;
+        padding: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        transition: transform 0.2s, background-color 0.2s;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .track-card:hover {
+        transform: translateY(-5px);
+        background-color: #2a2a2a;
+      }
+
+      .track-card img {
+        width: 100%;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+
+      .track-title {
+        font-size: 1.1rem;
+        margin: 10px 0 5px;
+        color: #fff;
+      }
+
+      .track-artist {
+        font-size: 0.9rem;
+        color: #b3b3b3;
+        margin-bottom: 10px;
+      }
+
+      .no-preview {
+        color: #888;
+        font-size: 0.85rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Playlist Songs</h1>
+
+    <% if (tracks && tracks.length > 0) { %>
+    <div class="playlist">
+      <% tracks.forEach(track => { const album = track.track.album; const image
+      = album.images.length > 0 ? album.images[0].url : ''; const trackUri =
+      track.track.uri; %>
+      <div class="track-card" data-uri="<%= trackUri %>">
+        <% if (image) { %>
+        <img src="<%= image %>" alt="Album Art" />
+        <% } %>
+        <div class="track-title"><%= track.track.name %></div>
+        <div class="track-artist">
+          <%= track.track.artists.map(artist => artist.name).join(', ') %>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+    <% } else { %>
+    <p>No tracks found in this playlist.</p>
+    <% } %>
+
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script>
+      let player;
+      let currentDeviceId = null;
+
+      // TODO: Replace this with your actual token with proper scopes (streaming, user-read-playback-state, user-modify-playback-state)
+      const token = "<%= access_token%>";
+
+      window.onSpotifyWebPlaybackSDKReady = () => {
+        player = new Spotify.Player({
+          name: "Web Playback SDK Player",
+          getOAuthToken: (cb) => {
+            cb(token);
+          },
+          volume: 0.8,
+        });
+
+        player.addListener("ready", ({ device_id }) => {
+          console.log("Ready with Device ID", device_id);
+          currentDeviceId = device_id;
+        });
+
+        player.addListener("not_ready", ({ device_id }) => {
+          console.log("Device ID has gone offline", device_id);
+        });
+
+        player.addListener("initialization_error", ({ message }) => {
+          console.error("Initialization Error:", message);
+        });
+
+        player.addListener("authentication_error", ({ message }) => {
+          console.error("Authentication Error:", message);
+        });
+
+        player.addListener("account_error", ({ message }) => {
+          console.error("Account Error:", message);
+          alert("Premium Spotify account required to use Web Playback SDK.");
+        });
+
+        player.connect();
+      };
+
+      // Play function
+      async function playSong(uri) {
+        if (!currentDeviceId) {
+          alert("Player not ready yet!");
+          return;
+        }
+
+        try {
+          await fetch(
+            `https://api.spotify.com/v1/me/player/play?device_id=${currentDeviceId}`,
+            {
+              method: "PUT",
+              body: JSON.stringify({ uris: [uri] }),
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+        } catch (err) {
+          console.error("Error playing track:", err);
+          alert("Error playing track. Check console for details.");
+        }
+      }
+
+      document.querySelectorAll(".track-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const trackUri = card.getAttribute("data-uri");
+          playSong(trackUri);
+        });
+      });
+    </script>
+  </body>
+</html>

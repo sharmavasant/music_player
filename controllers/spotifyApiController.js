@@ -36,7 +36,10 @@ async function spotifyApiController(req, res) {
     );
     console.log(response);
     const { access_token, refresh_token, expires_in } = response.data;
-
+    req.session.access_token = access_token;
+    req.session.refresh_token = refresh_token;
+    req.session.expires_in = expires_in;
+    console.log(req);
     console.log(access_token);
     console.log(refresh_token);
     console.log(expires_in);
