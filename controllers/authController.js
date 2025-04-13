@@ -25,6 +25,7 @@ function authController() {
       res.redirect(authUrl); // Redirect user to this URL
     },
     register(req, res) {},
+    audisLogin() {},
   };
 }
 

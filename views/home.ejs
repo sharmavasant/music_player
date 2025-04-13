@@ -3,45 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login Button</title>
-    <style>
-      body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        background-color: #121212; /* Spotify dark theme */
-        font-family: Arial, sans-serif;
-      }
-
-      .login-button {
-        background-color: #1db954; /* Spotify green */
-        border: none;
-        border-radius: 50px;
-        color: white;
-        padding: 15px 30px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .login-button:hover {
-        background-color: #1ed760;
-        transform: scale(1.05);
-      }
-
-      .login-button:active {
-        transform: scale(0.95);
-      }
-    </style>
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/css/home.css"
   </head>
   <body>
-    <form action="/spotify-login" method="GET">
-      <button class="login-button">Login with Spotify</button>
-    </form>
+    <header>🎵 Welcome to Unified Music Company 🎵</header>
+
+    <main>
+      <form action="/spotify-login" method="GET">
+        <button class="login-button">Login with Spotify</button>
+      </form>
+      <form action="/audis-login" method="GET">
+        <button class="login-button">Login with Audis</button>
+      </form>
+    </main>
+
+    <footer>&copy; 2025 Music Player. All rights reserved.</footer>
   </body>
 </html>

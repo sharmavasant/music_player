@@ -10,6 +10,8 @@ function initRoutes(app) {
   app.get("/spotify-api", spotifyApiController);
   // app.get("/profile", profileController);
   app.get("/playlist/:id", playlistController);
+
+  app.get("/audis-login", authController().audisLogin);
 }
 
 module.exports = initRoutes;
