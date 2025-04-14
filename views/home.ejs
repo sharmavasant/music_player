@@ -14,10 +14,31 @@
         <button class="login-button">Login with Spotify</button>
       </form>
       <form action="/audis-login" method="GET">
-        <button class="login-button">Login with Audis</button>
+        <button class="login-button" id="audiusLogInButton">
+          Login with Audis
+        </button>
       </form>
     </main>
 
     <footer>&copy; 2025 Music Player. All rights reserved.</footer>
+    <script>
+      const Web3 = require("web3");
+      const { sdk } = require("@audius/sdk");
+
+      window.Web3 = Web3;
+
+      const audiusSdk = sdk({ apiKey: process.env.AUDIS_KEY });
+
+      audiusSdk.oauth.init({
+        successCallback: (userInfo) => {
+          console.log("Log in success!", userInfo);
+        },
+      });
+
+      audiusSdk.oauth.renderButton({
+        element: document.getElementById("audiusLogInButton"),
+        scope: "read", // use "write" instead if you'd like to request read/write access to user's account
+      });
+    </script>
   </body>
 </html>

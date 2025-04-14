@@ -1,3 +1,8 @@
+//https://audius.co/oauth/auth?scope={read|write}&
+// api_key={Your API Key}&redirect_uri={Your Redirect URI}&
+// origin={Your App Origin}&state={Your State Value}&
+// response_mode={query|fragment}
+
 function authController() {
   return {
     login(req, res) {
@@ -25,7 +30,16 @@ function authController() {
       res.redirect(authUrl); // Redirect user to this URL
     },
     register(req, res) {},
-    audisLogin() {},
+    audisLogin(req, res) {
+      const scope = "read";
+      const authUrl =
+        `https://audius.co/oauth/auth?` +
+        `scope=${scope}` +
+        `&api_key=${process.env.AUDIS_KEY}` +
+        `&redirect_uri=${process.env.AUDIS_REDIRECT_URI}`;
+
+      res.redirect(authUrl);
+    },
   };
 }
 

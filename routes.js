@@ -3,6 +3,8 @@ const authController = require("./controllers/authController");
 const spotifyApiController = require("./controllers/spotifyApiController");
 // const profileController = require("./controllers/profileController");
 const playlistController = require("./controllers/playlistController");
+const audisApiController = require("./controllers/audisApiController");
+const audisPlayerController = require("./controllers/audisPlayerController");
 
 function initRoutes(app) {
   app.get("/", homeController);
@@ -12,6 +14,8 @@ function initRoutes(app) {
   app.get("/playlist/:id", playlistController);
 
   app.get("/audis-login", authController().audisLogin);
+  app.get("/audis-api", audisApiController);
+  app.get("/audisPlayer", audisPlayerController);
 }
 
 module.exports = initRoutes;

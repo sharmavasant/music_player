@@ -5,6 +5,15 @@ const PORT = 3000 || process.env.PORT;
 const ejs = require("ejs");
 const path = require("path");
 const session = require("express-session");
+const cors = require("cors");
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use(
   session({

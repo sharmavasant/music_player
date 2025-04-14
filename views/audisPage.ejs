@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Spotify Token Test</title>
+  </head>
+  <body>
+    <h1>Audis API Test</h1>
+
+    <script>
+      console.log("running");
+      const hash = window.location.hash;
+      //   console.log(hash);
+      const token = new URLSearchParams(hash.substring(1)).get("token");
+      console.log(token);
+      fetch("http://localhost:3000/audis-api", {
+        method: "GET",
+        headers: {
+          Authorization: `${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+    </script>
+  </body>
+</html>
